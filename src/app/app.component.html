@@ -1,20 +1,118 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
+<ul class="nav">
+  <li class="nav-item">
+    <a class="nav-link active" href="#" (click)="changeTab(1)">Home</a>
   </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
+  <li class="nav-item">
+    <a class="nav-link" href="#" (click)="changeTab(2)">Adicionar Receita</a>
   </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
+  <li class="nav-item">
+    <a class="nav-link" href="#" (click)="changeTab(3)">Relatorio</a>
   </li>
 </ul>
 
+<div class="container" [ngClass]="steps == 1 ? 'content active' : 'content' ">
+  
+  <div class="row">
+    <h1 class="col-12">{{ title }}</h1>
+  </div>
+  
+  <div class="row">
+    
+    <div class="col-9">
+      <div class="row">
+        
+        <div class="col-6" *ngFor="let item of list">
+          
+          <div class="card">
+            
+            <div class="card-header">
+              <h2> {{ item.name }} </h2>
+            </div>
+            
+            <div class="card-body">
+              <h3>Peso:</h3>
+              <p> {{ item.peso }}</p>
+            </div>
+            
+            <div class="card-footer">
+              <button class="btn btn-primary" (click)="checkQuantities(item.name);">Fazer Receita</button>
+            </div>
+            
+          </div>
+          
+        </div>
+        
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="row">
+        
+        <ul class="list-group" *ngIf="showFormula">
+          <li class="list-group-item active">Formula</li>
+          
+        </ul>
+        
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+<div class="container" [ngClass]="steps == 2 ? 'content active' : 'content' ">
+  {{ title }}
+  
+  <form (submit)="addWeight($event)">
+    <legend>Formulario</legend>
+    <div class="form-group">
+      <label for="Sabores">Seleciona o Sabor</label>
+      <select 
+      id="Sabores"
+      class="form-control"
+      [(ngModel)] = "pesagem.name"
+      [ngModelOptions]="{standalone: true}"
+      >
+      <option value="">Selecione um Sabor</option>
+      <option *ngFor="let item of selectOptions">
+        {{ item.name }}
+      </option>
+    </select>
+  </div>
+  
+  <div class="form-group">
+    <input 
+    type="text"
+    class="form-control"
+    placeholder="Peso em Gramas"
+    [(ngModel)]="pesagem.peso"
+    [ngModelOptions]="{standalone: true}"
+    />
+  </div>
+  
+  <input type="submit" class="btn btn-primary" value="adicionar pesagem">
+  
+</form>
+</div>
+
+<div class="container" [ngClass]="steps == 3 ? 'content active' : 'content' ">
+  <div class="row">
+    <h1>
+      {{ title }}
+    </h1>
+  </div>
+  
+  <table class="table table-striped">
+    <thead>
+      <th>Sabor</th>
+      <th>Peso</th>
+      <th>Status</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of report">
+        <td> {{ item.name }}</td>
+        <td> {{ item.peso }}</td>
+        <td> {{ item.status }}</td>
+      </tr>
+    </tbody>
+  </table>
+  
+</div>
