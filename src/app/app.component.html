@@ -68,7 +68,7 @@
       <select 
       id="Sabores"
       class="form-control"
-      [(ngModel)] = "pesagem.name"
+      [(ngModel)] = "pesagem['name']"
       [ngModelOptions]="{standalone: true}"
       >
       <option value="">Selecione um Sabor</option>
@@ -83,7 +83,7 @@
     type="text"
     class="form-control"
     placeholder="Peso em Gramas"
-    [(ngModel)]="pesagem.peso"
+    [(ngModel)]="pesagem['peso']"
     [ngModelOptions]="{standalone: true}"
     />
   </div>
