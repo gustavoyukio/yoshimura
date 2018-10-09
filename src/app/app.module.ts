@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
 import { AppComponent } from './app.component';
 import { PorcentagensPipe } from './pipes/porcentagens.pipe';
@@ -31,7 +32,8 @@ const environment = {
     BrowserModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule, // for database,
-    FormsModule
+    FormsModule,
+    AngularFontAwesomeModule
   ],
   providers: [PorcentagensPipe],
   bootstrap: [AppComponent]
