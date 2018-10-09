@@ -5,6 +5,8 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 
 import { AppComponent } from './app.component';
+import { PorcentagensPipe } from './pipes/porcentagens.pipe';
+import { IngredientesPipe } from './pipes/ingredientes.pipe';
 
 
 const environment = {
@@ -21,7 +23,9 @@ const environment = {
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    PorcentagensPipe,
+    IngredientesPipe
   ],
   imports: [
     BrowserModule,
@@ -29,7 +33,7 @@ const environment = {
     AngularFireDatabaseModule, // for database,
     FormsModule
   ],
-  providers: [],
+  providers: [PorcentagensPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

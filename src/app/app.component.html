@@ -3,7 +3,7 @@
     <a class="nav-link active" href="#" (click)="changeTab(1)">Home</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="#" (click)="changeTab(2)">Adicionar Receita</a>
+    <a class="nav-link" href="#" (click)="changeTab(2)">Adicionar Pesagem</a>
   </li>
   <li class="nav-item">
     <a class="nav-link" href="#" (click)="changeTab(3)">Relatorio</a>
@@ -17,11 +17,44 @@
   </div>
   
   <div class="row">
-    
-    <div class="col-9">
+
+    <div class="col-12 col-md-3">
       <div class="row">
         
-        <div class="col-6" *ngFor="let item of list">
+        <div class="col-12">
+          <ul class="list-group" *ngIf="showFormula">
+            <li class="list-group-item active">
+              Formula - {{ recipeToMake.name }}
+              <span>
+                Total da Receita: 
+                {{ recipeToMake.total }} 
+              </span>
+            </li>
+            <li> 
+              Pesagem de Ontem:
+              {{ recipeToMake.old.peso }} - 
+              ({{ recipeToMake.old.peso | porcentagens: recipeToMake.total }})
+            </li>
+            <li class="border-li"> 
+              <h4>Ingredients</h4> 
+            </li>
+            <li class="ingredients"
+            *ngFor="let item of recipeToMake.items"
+            (click)="addedIngredient(recipeToMake, item.name, $event)">
+              {{ item.name }} : <sub>{{ item.quantity }} </sub> {{ item.quantity | ingredientes: recipeToMake.old.peso: recipeToMake.total}}
+              <i class="fa fa-check"
+                *ngIf="item.status"></i>
+            </li>
+          </ul>
+        </div>
+        
+      </div>
+    </div>
+
+    <div class="col-12 col-md-9">
+      <div class="row">
+        
+        <div class="col-12 col-md-6" *ngFor="let item of list">
           
           <div class="card">
             
@@ -30,12 +63,13 @@
             </div>
             
             <div class="card-body">
-              <h3>Peso:</h3>
-              <p> {{ item.peso }}</p>
-            </div>
-            
-            <div class="card-footer">
-              <button class="btn btn-primary" (click)="checkQuantities(item.name);">Fazer Receita</button>
+              <h3>Peso de Ontem: <span class="label">{{ item.peso }}</span></h3>
+
+              <button class="btn btn-primary" 
+              (click)="checkQuantities(item);">
+                Fazer Receita
+              </button>
+
             </div>
             
           </div>
@@ -44,16 +78,7 @@
         
       </div>
     </div>
-    <div class="col-3">
-      <div class="row">
-        
-        <ul class="list-group" *ngIf="showFormula">
-          <li class="list-group-item active">Formula</li>
-          
-        </ul>
-        
-      </div>
-    </div>
+    
     
   </div>
 </div>

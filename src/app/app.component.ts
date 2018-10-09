@@ -18,6 +18,12 @@ export class AppComponent implements OnInit {
   pesagem = {};
   list;
   report;
+  recipeToMake = {
+    name: '',
+    total: '',
+    ingredients: [],
+    old: ''
+  }
   
   constructor (private recipes: ClassesFirebaseService) {
     
@@ -75,18 +81,51 @@ export class AppComponent implements OnInit {
 
   addWeight ($event) {
 
-    $event.preventDefault();
-    console.log(this.pesagem);
-    
+    $event.preventDefault();    
     let payload = this.pesagem;
-
     this.recipes.addWeight(payload);
+
+    this.steps = 1;
   }
 
   addRecipe () {
   }
 
-  checkQuantities (name) {
+  checkQuantities (obj) {
     this.showFormula = true;
+
+    this.recipes.getRecipes()
+      .subscribe( data => {
+        
+        let recipe = data[0];
+
+        for(let i=0; i < recipe['length']; i++) {
+          if ( recipe[i].name == obj.name) {
+            let resultArray = Object.keys(recipe[i]['items']).map(
+              function(personNamedIndex){
+                let person = {
+                  quantity: recipe[i]['items'][personNamedIndex],
+                  name: personNamedIndex,
+                  status: false
+                }
+                return person;
+              });
+            recipe[i]['items'] = resultArray;
+
+            this.recipeToMake = recipe[i];
+            this.recipeToMake.old = obj;
+
+          }
+        }
+
+      })
+  }
+
+  addedIngredient (recipe, name, $event) {
+    
+    for (let index = 0; index < recipe['items'].length; index++) {
+      if ( recipe['items'][index].name == name) recipe['items'][index].status = true;
+    }
+    
   }
 }
